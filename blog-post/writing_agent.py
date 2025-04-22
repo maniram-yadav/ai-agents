@@ -46,4 +46,20 @@ class WritingAgent :
         )
         return response.choices[0].message.content
     
-    
+    def generate_conclusion(self,outline:Dict) -> str :
+        prompt = f"""
+        Write a compelling conclusion for a blog post titled: {outline['title']}
+        Main sections covered: {', '.join(outline['sections'])}
+
+        Make it:
+        - Summarize key points
+        - Include a call-to-action
+        - End with a memorable thought
+        - Keep it under 150 words
+        """
+        response = open.ChatCompletion.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7
+        )
+        return response.choices[0].message.content
