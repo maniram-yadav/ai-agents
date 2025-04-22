@@ -13,12 +13,12 @@ from writing_agent import WritingAgent
 
 class BlogGenerator :
     
-    def __init__(self,open_api_key):
+    def __init__(self,open_ai_key):
         self.research_agent = ResearchAgent()
-        self.strategy_agent = ContentStrategyAgent()
-        self.writing_agent = WritingAgent()
-        self.seo_agent = SEOAgent()
-        self.visual_agent = VisualAgent()
+        self.strategy_agent = ContentStrategyAgent(open_ai_key)
+        self.writing_agent = WritingAgent(open_ai_key)
+        self.seo_agent = SEOAgent(open_ai_key)
+        self.visual_agent = VisualAgent(open_ai_key)
         self.performance_agent = PerformanceAgent()
 
     def generate_blog_post(self,url:str) -> Dict:
@@ -53,9 +53,9 @@ class BlogGenerator :
 
         print("Analyzing performance...")
         performance = self.performance_agent.analyze_performance({
-            'full_text':full_text,**sections},
+            'full_text':full_text,**sections },
             seo_data
-        })
+        )
         return {
             'title': outline['title'],
             'content': full_text,

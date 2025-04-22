@@ -1,5 +1,5 @@
 import openai
-
+from typing import Dict
 class WritingAgent :
     
     def __init__(self,open_ai_key:str):

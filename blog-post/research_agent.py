@@ -35,7 +35,7 @@ class ResearchAgent :
 
 
         except Exception as e :
-            print(f"Erro analyzing Url : {e}") 
+            print(f"Error analyzing Url : {e}") 
             return {}
 
 
