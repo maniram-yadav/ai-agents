@@ -26,5 +26,24 @@ class WritingAgent :
         )
         
         return response.choices[0].message.content
+    def generate_intro(self,outline:Dict) -> str:
 
-  
+        prompt = f"""
+        Write an engaging introduction for a blog post titled : {outline['title']}
+        Keywords to inclue {", ".join(outline['keywords'][:3])}
+        target word count : 150-200 words
+
+        Make it :
+            - Attention-grabbing
+            - Clearly state what the post will cover
+            - Include a hook to keep readers engaged
+        
+        """
+        response = openai.ChatCompletion.create(
+             model="gpt-4",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7
+        )
+        return response.choices[0].message.content
+    
+    
