@@ -1,6 +1,4 @@
 import openai
-import json
-from typing import Dict
 
 class WritingAgent :
     
@@ -63,3 +61,4 @@ class WritingAgent :
             temperature=0.7
         )
         return response.choices[0].message.content
+    
