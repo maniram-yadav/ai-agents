@@ -2,7 +2,7 @@ import openai
 import json
 from typing import Dict
 
-class ResearchAgent :
+class ContentStrategyAgent :
     
     def __init__(self,open_ai_key:str):
         openai.api_key = open_ai_key

@@ -3,7 +3,7 @@ import json
 from typing import Dict,List
 import re
 
-class SEOAgent :
+class VisualAgent :
     
     def __init__(self,open_ai_key:str):
         openai.api_key = open_ai_key
