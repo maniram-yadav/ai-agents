@@ -3,9 +3,10 @@ from crewai import Agent
 def getMarketResearcher(llm) :
     market_researcher = Agent(
         role='Market researcher',
-        goal = '',
-        backstory = '',
+        goal='Research new and emerging trends in pet products industry in Germany',
+        backstory = 'You are a market researcher in the pet product industry',
         verbose = True,
         allow_delegation=False,
         llm = llm
     )
+    return market_researcher
