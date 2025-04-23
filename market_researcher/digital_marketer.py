@@ -1,6 +1,6 @@
 from crewai import Agent
 
-def getDigitalMarketingContentCreator(llm) :
+def getDigitalMarketingContentCreatorAgent(llm) :
     digital_marketer =  Agent(
     role = 'Digital Marketing Content Creator',
     goal='Come up with 2 or 3 interesting advertisement ideas for marketing on digital platforms such as Youtube, Instagram amd Tiktok along with script for each marketing campaign',

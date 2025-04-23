@@ -1,6 +1,6 @@
 from crewai import Agent
 
-def getMarketResearcher(llm) :
+def getMarketResearcherAgent(llm) :
     market_researcher = Agent(
         role='Market researcher',
         goal='Research new and emerging trends in pet products industry in Germany',

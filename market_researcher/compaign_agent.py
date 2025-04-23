@@ -1,6 +1,6 @@
 from crewai import Agent
 
-def getCompaignCreator(llm) :
+def getCompaignCreatorAgent(llm) :
     compaign_creator = Agent(
         role='Marketing Campaign Creator',
         goal='Come up with 3 interesting marketing campaign ideas in the pet product industry based on market research insights',
