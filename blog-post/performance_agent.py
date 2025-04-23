@@ -1,7 +1,4 @@
-import openai
-import json
 from typing import Dict,List
-import re
 
 
 class PerformanceAgent:
@@ -24,4 +21,5 @@ class PerformanceAgent:
         if len(content['full_text'].split('\n\n')) < 5 :
             recs.append("Add more paragraph breaks for better readability")
         return recs
+    
         

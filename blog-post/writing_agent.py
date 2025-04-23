@@ -1,9 +1,10 @@
 import openai
 from typing import Dict
+
 class WritingAgent :
     
-    def __init__(self,open_ai_key:str):
-        openai.api_key = open_ai_key
+    def __init__(self):
+        pass
 
     def expand_section(self, section: str, context: Dict) -> str:
         prompt = f"""  Write a detailed blog post section about: {section}
@@ -37,8 +38,9 @@ class WritingAgent :
             - Include a hook to keep readers engaged
         
         """
-        response = openai.ChatCompletion.create(
-             model="gpt-4",
+        response  = openai.chat.completions.create(
+            model="gpt-4o",
+            #  model="gpt-4",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
@@ -55,8 +57,8 @@ class WritingAgent :
         - End with a memorable thought
         - Keep it under 150 words
         """
-        response = open.ChatCompletion.create(
-            model="gpt-4",
+        response  = openai.chat.completions.create(
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )

@@ -9,7 +9,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.vectorstores import Chroma
 import chromadb
 
-class Pdf :
+class Pdf:
     def __init__(self,folder):
         self.folder=folder
     

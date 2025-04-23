@@ -1,12 +1,11 @@
 import openai
 import json
-from typing import Dict,List
-import re
+from typing import Dict
 
 class VisualAgent :
     
-    def __init__(self,open_ai_key:str):
-        openai.api_key = open_ai_key
+    def __init__(self):
+        pass
 
     def generate_image_prompt(self,content:Dict) -> Dict:
         prompt = f"""Based on this blog content, create 3 detailed image prompts for DALL-E/Midjourney:
@@ -22,8 +21,9 @@ class VisualAgent :
         Each prompt should be detailed (1-2 sentences) and include style guidance.
         """
 
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
+        response  = openai.chat.completions.create(
+            model="gpt-4o",
+            # model="gpt-4",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )

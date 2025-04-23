@@ -1,12 +1,11 @@
 import openai
-import json
 from typing import Dict,List
 import re
 
 class SEOAgent :
     
-    def __init__(self,open_ai_key:str):
-        openai.api_key = open_ai_key
+    def __init__(self):
+        pass
 
     def optimize_content(self,content:str,keywords : List[str]) -> Dict:
         word_count = len(content.split())
@@ -18,8 +17,9 @@ class SEOAgent :
         {content[:500]}
         Primary keyword: {keywords[0]}
         """
-        meta_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+        meta_response  = openai.chat.completions.create(
+            model="gpt-4o",
+        #    model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": meta_prompt}],
             temperature=0.5
         )

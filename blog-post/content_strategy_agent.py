@@ -4,11 +4,11 @@ from typing import Dict
 
 class ContentStrategyAgent :
     
-    def __init__(self,open_ai_key:str):
-        openai.api_key = open_ai_key
+    def __init__(self):
+        pass
 
     def generate_outline(self,research_data: Dict) -> Dict:
-        prompt = f""" Based on the following content from {research_data['url']}, create a detailed blog post outline.
+        prompt = f"""Based on the following content from {research_data['url']}, create a detailed blog post outline.
         Main topic: {research_data['title']}
         Key points from source: {research_data['headings'][:5]}
          
@@ -19,15 +19,14 @@ class ContentStrategyAgent :
         4. Conclusion summary
         5. 5-7 SEO keywords
 
-            
         Return as JSON with keys: title, introduction, sections, conclusion, keywords.
         """
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
+        response  = openai.chat.completions.create(
+            model="gpt-4o",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7
         )
-        
+        print(response)
         try :
             return json.loads(response.choices[0].message.content)
         except:
