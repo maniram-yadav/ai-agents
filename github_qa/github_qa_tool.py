@@ -98,7 +98,11 @@ class CodeBaseQATool:
         
 
     def ask_question(self, question: str) -> str:
-        pass
+        if not self.qa_chain :
+            raise ValueError("No repository loaded. Please laod a repositor first")
+        result = self.qa_chain({"question":question})
+        return result["answer"]
+        
     def get_codebase_overview(self) -> str:
         pass
     def get_contribution_guidance(self) -> str:
