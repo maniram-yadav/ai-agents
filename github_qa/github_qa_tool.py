@@ -45,7 +45,9 @@ class CodeBaseQATool:
             raise e
 
     def _load_from_local(self, local_path: str):
+        
         pass
+
     def _should_load_file(self,file_path:str)-> str:
         excluded_dirs = {".git", "__pycache__", "node_modules", "venv", "dist", "build"}
         excluded_extensions = {".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico", ".pdf"}
@@ -55,8 +57,31 @@ class CodeBaseQATool:
             return False
         return True
 
+
     def _process_documents(self, documents: List):
-        pass
+        code_splitter = RecursiveCharacterTextSplitter.from_language(
+            language=Language.PYTHON,
+            chunk_size=1000,
+            shunk_overlap=200
+        )
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
+            chunk_overlap=100
+            )
+        split_docs = []
+        for doc in documents:
+            if doc.metadata.get("file_path","").endswith(".py"):
+                split_docs.extend(code_splitter.split_documents([doc]))
+            else :
+                split_docs.extend(text_splitter.split_documents([doc]))
+        self.vector_store = Chroma.from_documents(split_docs,self.embeddings)
+        self.qa_chain = ConversationalRetrievalChain.from_llm(
+            self.llm,
+            self.vector_store.as_retriever(),
+            memory=self.memory
+        )
+        
+
     def ask_question(self, question: str) -> str:
         pass
     def get_codebase_overview(self) -> str:
