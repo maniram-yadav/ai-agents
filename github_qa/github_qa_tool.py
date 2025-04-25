@@ -24,8 +24,13 @@ class CodeBaseQATool:
         self.repo_path = None
     
     def load_repository(self,repo_url :Optional[str]=None, local_path:Optional[str]=None):
-        # if repo_url:
-        pass
+        if repo_url:
+            self._load_from_github(repo_url)
+        elif local_path:
+            self._load_from_local(local_path)
+        else :
+            raise ValueError("repo url or local path must be provided")
+        
 
     def _load_from_github(self,repo_url:str):
         temp_dir = tempfile.mkdtemp()
