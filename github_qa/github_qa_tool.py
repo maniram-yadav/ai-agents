@@ -45,8 +45,18 @@ class CodeBaseQATool:
             raise e
 
     def _load_from_local(self, local_path: str):
-        
-        pass
+        if not os.path.exists(local_path):
+            raise ValueError(f"Local path {local_path} does not exist")
+        from langchain.document_loaders import DirectoryLoader
+        loader = DirectoryLoader(
+            local_path,
+            glob="**/*",
+            silent_errors=True,
+            loader_kwargs={"autodetect_encoding": True}
+        )
+        documents = loader.load()
+        self._process_documents(documents)
+        self.repo_path = local_path
 
     def _should_load_file(self,file_path:str)-> str:
         excluded_dirs = {".git", "__pycache__", "node_modules", "venv", "dist", "build"}
@@ -79,7 +89,7 @@ class CodeBaseQATool:
             self.llm,
             self.vector_store.as_retriever(),
             memory=self.memory
-        )
+            )
         
 
     def ask_question(self, question: str) -> str:
