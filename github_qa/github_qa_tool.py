@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 from langchain.document_loaders import GitLoader
 from langchain.text_splitter import Language, RecursiveCharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
@@ -10,9 +9,7 @@ from langchain.memory import ConversationBufferMemory
 from typing import List, Optional
 import tempfile
 import shutil
-import argparse
 
-load_dotenv()
 
 class CodeBaseQATool:
     def __init__(self):
