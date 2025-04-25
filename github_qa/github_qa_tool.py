@@ -104,9 +104,32 @@ class CodeBaseQATool:
         return result["answer"]
         
     def get_codebase_overview(self) -> str:
-        pass
+        if not self.qa_chain :
+            raise ValueError("no repo loaded, load the repo first")
+        prompt = """Please provide a comprehensive overview of this codebase, including:
+        1. The apparent purpose of the project
+        2. Key modules or components
+        3. Notable architectural patterns
+        4. Entry points or main execution flows
+        5. Any obvious dependencies
+        6. Recommendations for where a new contributor should start looking"""
+        return self.ask_question(prompt)
+    
+        
     def get_contribution_guidance(self) -> str:
-        pass
+        
+        if not self.qa_chain:
+            raise ValueError("No repository loaded. Please load a repository first.")
+                
+        prompt = """Based on the codebase structure and content, provide specific guidance for:
+        1. Common contribution opportunities (e.g., areas needing tests, documentation)
+        2. Code style and conventions observed
+        3. Testing approach and how to add new tests
+        4. Documentation standards
+        5. Any contribution processes evident from the repository files"""
+        
+        return self.ask_question(prompt)
+
     def main():
         pass
 
