@@ -36,8 +36,14 @@ class CodeBaseQATool:
                 branch="main",
                 file_filter=lambda file_path : self._should_load_file(file_path)
             )
-        except :
-            pass
+            documents = loader.load()
+            self._process_documents(documents)
+            self.repo_path = temp_dir
+
+        except Exception as e:
+            shutil.rmtree(temp_dir)
+            raise e
+
     def _load_from_local(self, local_path: str):
         pass
     def _should_load_file(self,file_path:str)-> str:
