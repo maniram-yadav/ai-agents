@@ -1,15 +1,10 @@
-import os
 from typing import Dict,Any,Optional
-import requests
 from bs4 import BeautifulSoup
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.retrieval import create_retrieval_chain
-from langchain_openai import ChatOpenAI
-from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 
 
