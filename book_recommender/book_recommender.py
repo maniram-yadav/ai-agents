@@ -6,7 +6,6 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_community.llms import Ollama  
 from langchain_openai import ChatOpenAI  
 
-# Load environment variables
 load_dotenv()
 
 class BookRecommender:
