@@ -1,69 +1,54 @@
-import os
-from typing import Dict,Any,Optional
-import requests
-from bs4 import BeautifulSoup
-from langchain_community.document_loaders import WebBaseLoader
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import StrOutputParser
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains.retrieval import create_retrieval_chain
+from job_extractor import JobExtractor
+from resume import Resume
+from typing import Any
 from langchain_openai import ChatOpenAI
-from langchain_community.vectorstores import FAISS
-from langchain_openai import OpenAIEmbeddings
 
 
-class JobExtractor :
-    def __init__(self):
-        self.llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
-        self.embeddings = OpenAIEmbeddings()
+llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+jobExtractor = JobExtractor(llm)
+resume = Resume(llm)
 
-    def extract_job_description_from_url(self,url: str) -> str:
-        try:
-            loader = WebBaseLoader(url)
-            docs = loader.load()
-            soup = BeautifulSoup(docs[0].page_content,"html.parser")
-            selectors = [
-            '.job-description',
-            '#job-description',
-            '.description',
-            '#description',
-            '.jd',
-            '#jd',
-            '.job-details',
-            '#job-details'
-            ]
-
-            for selector in selectors:
-                element = soup.select_one(selector)
-                if element :
-                    return element.get_text(separator='\n',strip=True)
-            return soup.get_text(separator='\n',strip=True)
-            
-        except Exception as e:
-            print("Error extracting job description {}",e)
-            return ""
-
-    def process_job_description(self,job_description:str) -> Dict[str,Any]:
-        prompt = ChatPromptTemplate.from_messages([
-        ("system", """You are an expert resume writer and career coach. Analyze the following job description and extract:
-         - Key skills required
-         - Technologies mentioned
-         - Experience level (entry, mid, senior)
-         - Job title
-         - Industry
-         - Any specific qualifications or certifications mentioned
-         
-         Return the information in JSON format with the above keys."""),
-        ("user", "{input}")
-        ])
-        chain = prompt | self.llm | StrOutputParser()
-        result = chain.invoke({"input": job_description})
-        try:
-            import json
-            return json.loads(result)
-        except:
-            return {"error": "Could not parse job description analysis"}
+def main():
+    print("Job Description to Resume Generator")
+    print("----------------------------------")
+    
+    input_method = input("Do you have a job URL or job description text? (url/text): ").lower()
+    if input_method == 'url':
+        url = input("Enter the job posting URL: ")
+        job_description = jobExtractor.extract_job_description_from_url(url)
+    else:
+        print("Paste the job description (press Enter then Ctrl+D when finished):")
+        job_description = ""
+        while True:
+            try:
+                line = input()
+            except EOFError:
+                break
+            job_description += line + "\n"
+        
+    if not job_description.strip():
+        print("Error: No job description provided.")
+        return
+    print("\nAnalyzing job description...")
+    job_info = jobExtractor.process_job_description(job_description)
+    if "error" in job_info:
+        print("Failed to analyze job description.")
+        return
+    print(f"\nDetected Job Title: {job_info.get('job_title', 'Unknown')}")
+    print(f"Key Skills: {', '.join(job_info.get('key_skills', []))}")
+    
+    candidate_info = resume.get_candidate_info()
+    print("\nGenerating your tailored resume...")
+    resume = resume.generate_tailored_resume(job_info, candidate_info)
+    filename = f"tailored_resume_{candidate_info['name'].replace(' ', '_')}.txt"
+    with open(filename, 'w') as f:
+        f.write(resume)
+    print(f"\nSuccess! Your tailored resume has been saved as {filename}")
+    print("\n=== GENERATED RESUME ===\n")
+    print(resume)
+    
+if __name__=="__main__":
+    main()
 
     
-
+  
