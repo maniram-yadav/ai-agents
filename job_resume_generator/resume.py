@@ -49,4 +49,49 @@ class Resume:
             "job_info": str(job_info),
             "candidate_info": str(candidate_info)
             })
+    def get_candidate_info() -> Dict[str, Any]:
+        
+        print("Please provide some information about yourself to generate a tailored resume.")
+        candidate_info = {
+            "name": input("Full Name: "),
+            "email": input("Email: "),
+            "phone": input("Phone: "),
+            "current_title": input("Current/Most Recent Job Title: "),
+            "experience_years": input("Years of Professional Experience: "),
+            "skills": input("List your key skills (comma separated): ").split(','),
+            "education": input("Highest Education Degree: "),
+            "work_history": [],
+            "projects": [],
+            "certifications": input("Any relevant certifications (comma separated, leave blank if none): ").split(',')
+        }
     
+        # Add work history
+        while True:
+            add_job = input("Would you like to add a job to your work history? (yes/no): ").lower()
+            if add_job != 'yes':
+                break
+                
+            job = {
+                "title": input("Job Title: "),
+                "company": input("Company Name: "),
+                "duration": input("Duration (e.g., 2018-2022): "),
+                "responsibilities": input("Key responsibilities (comma separated): ").split(','),
+                "achievements": input("Key achievements (comma separated): ").split(',')
+            }
+            candidate_info["work_history"].append(job)
+        while True:
+            add_project = input("Would you like to add a project? (yes/no): ").lower()
+            if add_project != 'yes':
+                break
+            project = {
+                'name' : input('Project Name : '),
+                'description' : input('Project Description : '),
+                "technologies": input("Technologies used (comma separated): ").split(','),
+                "outcomes": input("Key outcomes/results: ")
+            }
+            candidate_info["projects"].append(project)
+        return candidate_info
+    
+    
+    
+  
