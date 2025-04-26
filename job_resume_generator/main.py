@@ -14,7 +14,11 @@ from langchain_openai import OpenAIEmbeddings
 
 
 class JobExtractor :
-    def extract_job_description_from_url(url: str) -> str:
+    def __init__(self):
+        self.llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.7)
+        self.embeddings = OpenAIEmbeddings()
+
+    def extract_job_description_from_url(self,url: str) -> str:
         try:
             loader = WebBaseLoader(url)
             docs = loader.load()
@@ -40,4 +44,26 @@ class JobExtractor :
             print("Error extracting job description {}",e)
             return ""
 
+    def process_job_description(self,job_description:str) -> Dict[str,Any]:
+        prompt = ChatPromptTemplate.from_messages([
+        ("system", """You are an expert resume writer and career coach. Analyze the following job description and extract:
+         - Key skills required
+         - Technologies mentioned
+         - Experience level (entry, mid, senior)
+         - Job title
+         - Industry
+         - Any specific qualifications or certifications mentioned
+         
+         Return the information in JSON format with the above keys."""),
+        ("user", "{input}")
+        ])
+        chain = prompt | self.llm | StrOutputParser()
+        result = chain.invoke({"input": job_description})
+        try:
+            import json
+            return json.loads(result)
+        except:
+            return {"error": "Could not parse job description analysis"}
+
+    
 
