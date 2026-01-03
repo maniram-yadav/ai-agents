@@ -1,0 +1,11 @@
+{
+    "mcpServers":{
+        "mcp-project":{
+            "command":"uv",
+            "args":["run", "mcp-project"],
+            "env":{
+                 "PYTHONPATH": "${workspaceFolder}/src"
+            }
+        }
+    }
+}
