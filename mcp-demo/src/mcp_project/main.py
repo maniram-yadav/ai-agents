@@ -1,11 +1,12 @@
 import asyncio
 import logging
 from typing import Any
-from mcp_project import mcp
-from mcp import ClienSession,StdioServerParameters
-from mcp.Server import Server
-from mcp.server.models import (TextContent,Tool , Argument)
-
+from mcp import ClientSession,StdioServerParameters, ServerSession
+from mcp.server import Server
+from mcp.types import (
+    TextContent,
+    Tool,
+)
 import mcp.server.stdio
 
 server = Server("mcp-project");
@@ -39,8 +40,8 @@ async def handle_call_tool(name:str,
         location = arguments["location"] if arguments else "unknown"
         return [
             TextContent(
-                "type":"text",
-                  "text":f"Weather in {location} : Sunday 72*F"
+                type="text",
+                text=f"Weather in {location} : Sunday 72*F"
             )
         ]
     raise ValueError(f"unknown tool: {name}")
@@ -64,15 +65,15 @@ async def handle_read_resource(uri:str) -> str:
           return "This is example resource content."
     raise ValueError(f"Unknown resource: {uri}")
 
-def main():
-     """Run the MCP server."""
+async def run_server():
+    """Run the MCP server."""
     logging.basicConfig(level=logging.INFO)
     async with mcp.server.stdio.stdio_server() as (read_stream,write_stream):
-        async with ClientSession(read_stream,write_stream,server_initialization_options={}) as session:
+        async with ServerSession(read_stream,write_stream, init_options={}) as session:
             await session.initialize()
             await server.run(session,read_stream,write_stream)
     print("Hello from mcp-demo!")
 
 
-if __name__ == "__main__":
-     asyncio.run(main())
+def main():
+    asyncio.run(run_server())

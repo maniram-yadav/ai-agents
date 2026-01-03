@@ -377,7 +377,7 @@ wheels = [
 ]
 
 [[package]]
-name = "mcp-demo"
+name = "mcp-project"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [

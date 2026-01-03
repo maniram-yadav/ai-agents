@@ -1,5 +1,5 @@
 [project]
-name = "mcp-demo"
+name = "mcp_project"
 version = "0.1.0"
 description = "MCP Server Project"
 readme = "README.md"
@@ -27,7 +27,7 @@ build-backend = "hatchling.build"
 sources = ["src"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["mcp_project"]
+packages = ["src"]
 
 [project.scripts]
 mcp-project = "mcp_project.main:main"
