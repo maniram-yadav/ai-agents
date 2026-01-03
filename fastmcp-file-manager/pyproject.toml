@@ -12,7 +12,8 @@ dependencies = [
 ]
 
 [project.scripts]
-file-manager = "file_manager.main:app.cli"
+file_manager = "file_manager.main:main"
+file_manager_cli = "file_manager.cli:cli"
 
 [build-system]
 requires = ["hatchling"]
