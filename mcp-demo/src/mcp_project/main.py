@@ -7,7 +7,7 @@ from mcp.types import (
     TextContent,
     Tool,
 )
-import mcp.server.stdio
+from mcp.server.models import InitializationOptionsimport 
 
 server = Server("mcp-project");
 
@@ -69,9 +69,15 @@ async def run_server():
     """Run the MCP server."""
     logging.basicConfig(level=logging.INFO)
     async with mcp.server.stdio.stdio_server() as (read_stream,write_stream):
-        async with ServerSession(read_stream,write_stream, init_options={}) as session:
-            await session.initialize()
-            await server.run(session,read_stream,write_stream)
+        await server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="mcp-project",
+                server_version="0.1.0",
+                capabilities=server.get_capabilities(),
+            ),
+        )
     print("Hello from mcp-demo!")
 
 
