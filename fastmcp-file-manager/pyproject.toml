@@ -1,7 +1,47 @@
 [project]
 name = "fastmcp-file-manager"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
+description = "MCP Server for file and folder management with grouping by extension"
+requires-python = ">=3.10"
+dependencies = [
+    "fastmcp>=1.0.0",
+    "pydantic>=2.0.0",
+    "python-magic>=0.4.27",
+    "humanize>=4.9.0",
+    "watchfiles>=0.21.0",
+]
+
+[project.scripts]
+file-manager = "file_manager.main:app.cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+# uv specific configurations
+
+[tool.uv.dev-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+select = ["E", "F", "I", "B", "W", "C4", "Q"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+strict = true
