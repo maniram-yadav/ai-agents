@@ -18,11 +18,14 @@ file-manager = "file_manager.main:app.cli"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.uv]
-# uv specific configurations
+[tool.hatch.build]
+sources = ["src"]
 
-[tool.uv.dev-dependencies]
-dev = [
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.uv]
+dev-dependencies = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
     "black>=23.0.0",
