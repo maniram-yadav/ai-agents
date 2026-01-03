@@ -754,6 +754,7 @@ def list_directory_resource(path: str) -> str:
 def main():
     """Main function to run the MCP server."""
     mcp.run(transport='stdio')
+    # mcp.run(transport='http', host='localhost')
 
 if __name__ == "__main__":
     # Run the MCP server
